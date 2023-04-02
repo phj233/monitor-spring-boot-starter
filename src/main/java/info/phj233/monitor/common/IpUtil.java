@@ -18,9 +18,10 @@ import org.springframework.web.client.RestTemplate;
 public class IpUtil {
     @Resource
     private MonitorProp monitorProp;
+
     public String getIpInfo(String ip) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://www.douyacun.com/api/openapi/geo/location?ip=" + ip+"&token="+ monitorProp.getToken();
+        String url = "https://www.douyacun.com/api/openapi/geo/location?ip=" + ip + "&token=" + monitorProp.getToken();
         return restTemplate.getForObject(url, String.class);
     }
 

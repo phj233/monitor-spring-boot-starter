@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * @projectName: monitor-spring-boot-starter
- * @package: info.phj233.monitorspringbootstarter.service
+ * @package: info.phj233.monitor.service
  * @className: MonitorService
  * @author: phj233
- * @date: 2023/4/1 23:28
+ * @date: 2023/4/2 11:36
  * @version: 1.0
  */
 @Service

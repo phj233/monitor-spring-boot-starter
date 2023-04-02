@@ -24,10 +24,10 @@ publishing {
         }
         maven {
             name = 'GitHubPackages'
-            url = uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
+            url = uri("https://maven.pkg.github.com/phj233/monitor-spring-boot-starter")
             credentials {
                 username = "phj233"
-                password = "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"
+                password = "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"
             }
         }
     }

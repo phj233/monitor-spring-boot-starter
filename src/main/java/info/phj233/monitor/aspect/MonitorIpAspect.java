@@ -4,10 +4,11 @@ import info.phj233.monitor.common.IpUtil;
 import info.phj233.monitor.service.MonitorService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,22 +25,26 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class MonitorIpAspect {
     @Resource
-    MonitorService monitorService;
+    private MonitorService monitorService;
     @Pointcut("@annotation(info.phj233.monitor.annotation.MonitorIp)")
     public void pointcut() {
     }
+    Logger logger = org.slf4j.LoggerFactory.getLogger(MonitorIpAspect.class);
 
-    @AfterReturning("pointcut()")
-    public void doAfterReturning(JoinPoint joinPoint) throws Throwable {
+    @Around("pointcut()")
+    public Object doAfterReturning(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
             String ip = IpUtil.getIpAddr(request);
             String url = request.getRequestURL().toString();
             monitorService.sendDetails(ip, url);
+            logger.info("ip: " + ip + " url: " + url);
+
         }else {
             System.out.println("未获取到attributes");
         }
+        return joinPoint.proceed();
     }
 
 }
