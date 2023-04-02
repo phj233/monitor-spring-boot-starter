@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version '3.0.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'maven-publish'
+}
+
+group = 'info.phj233'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+publishing {
+    publications {
+        //noinspection GroovyAssignabilityCheck
+        gpr(MavenPublication) {
+            //noinspection GroovyAssignabilityCheck
+            from(components.java)
+        }
+    }
+    repositories {
+        maven {
+            name = 'localRepo'
+            url = 'file://F:/maven/repository'
+        }
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
+            credentials {
+                username = "phj233"
+                password = "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"
+            }
+        }
+    }
+}
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
